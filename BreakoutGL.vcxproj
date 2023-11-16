@@ -135,6 +135,8 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="shader.cpp" />
+    <ClCompile Include="texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
