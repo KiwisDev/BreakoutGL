@@ -1,6 +1,6 @@
 #include "texture2D.h"
 
-Texture2D::Texture2D(const char* path, bool flip = false, bool isRGBA = false, GLint wrapS = GL_REPEAT, GLint wrapT = GL_REPEAT, GLint minFilter = GL_NEAREST_MIPMAP_NEAREST, GLint magFilter = GL_NEAREST) {
+Texture2D::Texture2D(const char* path, bool flip, bool isRGBA, GLint wrapS, GLint wrapT, GLint minFilter, GLint magFilter) {
 	width = 0, height = 0, nbChannels = 0;
 	stbi_set_flip_vertically_on_load(flip);
 	unsigned char* data = stbi_load(path, &width, &height, &nbChannels, 0);
