@@ -26,3 +26,5 @@ public:
 		keys[index] = val;
 	}
 };
+
+#endif
