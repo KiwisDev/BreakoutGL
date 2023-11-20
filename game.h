@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_H
+#define GAME_H
 
 enum GameState {
 	GAME_ACTIVE,

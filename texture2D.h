@@ -5,16 +5,13 @@
 
 #include <iostream>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
 class Texture2D {
 private:
 	int width, height, nbChannels;
 	unsigned int texture;
 
 public:
-	Texture2D(const char* path, bool flip = false, bool isRGBA = false, GLint wrapS = GL_REPEAT, GLint wrapT = GL_REPEAT, GLint minFilter = GL_NEAREST_MIPMAP_NEAREST, GLint magFilter = GL_NEAREST);
+	Texture2D(int width, int height, int nbChannels, unsigned int texture);
 
 	void use() {
 		glBindTexture(GL_TEXTURE_2D, texture);
