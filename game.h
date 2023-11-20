@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAME_H
+#define GAME_H
 
 enum GameState {
 	GAME_ACTIVE,
@@ -21,3 +22,5 @@ public:
 	void update(float dt);
 	void render();
 };
+
+#endif

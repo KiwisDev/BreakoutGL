@@ -142,12 +142,14 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="ressourceManager.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="spriteRenderer.cpp" />
     <ClCompile Include="texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
     <ClInclude Include="ressourceManager.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="spriteRenderer.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="texture2D.h" />
   </ItemGroup>
