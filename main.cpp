@@ -86,13 +86,16 @@ int main() {
 	return 0;
 }
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
-	glViewport(0, 0, width, height);
-}
-
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, true);
+	}
+
+	if (key >= 0 && key < 1024) {
+		if (action == GLFW_PRESS)
+			game.setKey(key, true);
+		else if(action == GLFW_RELEASE)
+			game.setKey(key, false);
 	}
 
 	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS) {
@@ -106,4 +109,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 	}
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+	glViewport(0, 0, width, height);
 }

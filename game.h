@@ -20,4 +20,8 @@ public:
 	void processInput(float dt);
 	void update(float dt);
 	void render();
+
+	void setKey(int index, bool val) {
+		keys[index] = val;
+	}
 };
