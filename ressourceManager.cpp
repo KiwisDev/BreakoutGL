@@ -1,5 +1,8 @@
 #include "ressourceManager.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 std::map<std::string, Shader> RessourceManager::shaders;
 std::map<std::string, Texture2D> RessourceManager::textures;
 
@@ -31,7 +34,7 @@ Shader* RessourceManager::loadShader(std::string name, const char* vertexPath, c
     const char* vShaderCode = vertexCode.c_str();
     const char* fShaderCode = fragmentCode.c_str();
 
-    shaders.at(name) = Shader(vShaderCode, fShaderCode);
+    shaders.insert(std::pair<std::string, Shader>(name, Shader(vShaderCode, fShaderCode)));
 
     return &shaders.at(name);
 }
@@ -64,7 +67,7 @@ Texture2D* RessourceManager::loadTexture(std::string name, const char* path, boo
     stbi_image_free(data);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    textures.at(name) = Texture2D(width, height, nbChannels, texture);
+    textures.insert(std::pair<std::string, Texture2D>(name, Texture2D(width, height, nbChannels, texture)));
 
     return &textures.at(name);
 }

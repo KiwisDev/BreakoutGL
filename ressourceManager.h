@@ -5,9 +5,9 @@
 
 #include <map>
 #include <string>
-
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include <fstream>
+#include <sstream>
+#include <iostream>
 
 #include "shader.h"
 #include "texture2D.h"

@@ -2,6 +2,7 @@
 
 SpriteRenderer::SpriteRenderer(Shader* shader) {
 	this->shader = shader;
+    this->quadVAO = 0;
 
     float vertices[] = {
         // pos      // tex
@@ -38,5 +39,15 @@ void SpriteRenderer::drawSpite(Texture2D* texture, glm::vec2 position, glm::vec2
     model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f));
     model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f));
     model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f));
-    model = glm::scale(model, glm::vec3(s))
+    model = glm::scale(model, glm::vec3(size, 1.0f));
+
+    this->shader->setMat4("model", model);
+    this->shader->setVec3("spriteColor", color);
+
+    glActiveTexture(GL_TEXTURE0);
+    texture->use();
+
+    glBindVertexArray(this->quadVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
 }
