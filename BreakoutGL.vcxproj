@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="brick.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="gameLevel.cpp" />
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="glad.c" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="brick.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="gameLevel.h" />
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="ressourceManager.h" />
     <ClInclude Include="shader.h" />
