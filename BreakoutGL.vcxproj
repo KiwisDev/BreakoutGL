@@ -143,6 +143,7 @@
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="ressourceManager.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="spriteRenderer.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="gameLevel.h" />
     <ClInclude Include="gameObject.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="ressourceManager.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="spriteRenderer.h" />

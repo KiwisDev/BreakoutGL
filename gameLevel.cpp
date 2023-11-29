@@ -30,8 +30,6 @@ void GameLevel::init(std::vector<std::vector<unsigned int>> tileData, unsigned i
 	float h = static_cast<float>(tileData.size());
 	float w = static_cast<float>(tileData[0].size());
 
-	std::cout << w << " " << h << std::endl;
-
 	float unit_widht = lvlWidht / w;
 	float unit_height = lvlHeight / h;
 
@@ -41,7 +39,6 @@ void GameLevel::init(std::vector<std::vector<unsigned int>> tileData, unsigned i
 				glm::vec2 pos(unit_widht * x, unit_height * y);
 				glm::vec2 size(unit_widht, unit_height);
 
-				std::cout << "Brick solid " << x << " " << y << std::endl;
 				this->bricks.push_back(Brick(pos, size, RessourceManager::getTexture("brick_solid"), 0.0f, true, glm::vec3(0.8f, 0.8f, 0.7f)));
 			} else if (tileData[y][x] > 1) {
 				glm::vec3 color(1.0f);
@@ -58,7 +55,6 @@ void GameLevel::init(std::vector<std::vector<unsigned int>> tileData, unsigned i
 				glm::vec2 pos(unit_widht * x, unit_height * y);
 				glm::vec2 size(unit_widht, unit_height);
 
-				std::cout << "Brick " << x << " " << y << std::endl;
 				this->bricks.push_back(Brick(pos, size, RessourceManager::getTexture("brick"), 0.0f, false, color));
 			}
 		}
