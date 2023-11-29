@@ -6,6 +6,7 @@
 #include "spriteRenderer.h"
 #include "ressourceManager.h"
 #include "shader.h"
+#include "gameLevel.h"
 
 enum GameState {
 	GAME_ACTIVE,
@@ -19,6 +20,8 @@ private:
 	bool keys[1024];
 	unsigned int widht, height;
 	SpriteRenderer* renderer;
+	std::vector<GameLevel> levels;
+	unsigned int currentLvl;
 
 public:
 	Game(unsigned int width, unsigned int height);

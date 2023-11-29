@@ -5,6 +5,7 @@ Game::Game(unsigned int width, unsigned int height) {
 	this->height = height;
 	this->renderer = nullptr;
 	this->state = GAME_ACTIVE;
+	this->currentLvl = 0;
 
 	for (int i = 0; i < 1024; i++) {
 		this->keys[i] = false;
@@ -22,6 +23,12 @@ void Game::init() {
 	this->renderer = new SpriteRenderer(shad);
 
 	RessourceManager::loadTexture("face", "textures/awesomeface.png", false, true);
+	RessourceManager::loadTexture("background", "textures/background.jpg", false, false);
+	RessourceManager::loadTexture("brick", "textures/brick.png", false, false);
+	RessourceManager::loadTexture("brick_solid", "textures/brick_solid.png", false, false);
+
+	GameLevel lvlOne; lvlOne.load("levels/levelOne.lvl", this->widht, this->height / 2);
+	this->levels.push_back(lvlOne);
 }
 
 void Game::processInput(float dt) {
@@ -33,7 +40,11 @@ void Game::update(float dt) {
 }
 
 void Game::render() {
-	this->renderer->drawSpite(RessourceManager::getTexture("face"), glm::vec2(200.0f, 200.0f), glm::vec2(300.0f, 400.0f), 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (this->state == GAME_ACTIVE) {
+		this->renderer->drawSpite(RessourceManager::getTexture("background"), glm::vec2(0.0f, 0.0f), glm::vec2(widht, height));
+
+		this->levels[this->currentLvl].draw(this->renderer);
+	}
 }
 
 Game::~Game() {
