@@ -41,7 +41,17 @@ void Game::init() {
 
 void Game::processInput(float dt) {
 	if (this->state == GAME_ACTIVE) {
-		
+		float vel = PLAYER_VELOCITY * dt;
+
+		if (this->keys[65]) {
+			if (this->player->position.x >= 0.0f)
+				this->player->position.x -= vel;
+		}
+
+		if (this->keys[68]) {
+			if (this->player->position.x <= this->widht - this->player->size.x)
+				this->player->position.x += vel;
+		}
 	}
 }
 
