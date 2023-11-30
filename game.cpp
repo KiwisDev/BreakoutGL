@@ -3,6 +3,9 @@
 const glm::vec2 PLAYER_SIZE(100.0f, 20.0f);
 const float PLAYER_VELOCITY(500.0f);
 
+const glm::vec2 BALL_VELOCITY(100.0f, -350.0f);
+const float BALL_RADIUS = 12.0f;
+
 Game::Game(unsigned int width, unsigned int height) {
 	this->widht = width;
 	this->height = height;
@@ -10,6 +13,7 @@ Game::Game(unsigned int width, unsigned int height) {
 	this->state = GAME_ACTIVE;
 	this->currentLvl = 0;
 	this->player = nullptr;
+	this->ball = nullptr;
 
 	for (int i = 0; i < 1024; i++) {
 		this->keys[i] = false;
@@ -37,6 +41,9 @@ void Game::init() {
 
 	glm::vec2 playerPos(this->widht / 2.0f - PLAYER_SIZE.x / 2.0f, this->height - PLAYER_SIZE.y);
 	this->player = new Player(playerPos, PLAYER_SIZE, RessourceManager::getTexture("player"));
+
+	glm::vec2 ballPos = playerPos + glm::vec2(PLAYER_SIZE.x / 2.0f - BALL_RADIUS, -BALL_RADIUS * 2.0f);
+	this->ball = new Ball(ballPos, BALL_RADIUS, BALL_VELOCITY, RessourceManager::getTexture("face"));
 }
 
 void Game::processInput(float dt) {
@@ -44,19 +51,31 @@ void Game::processInput(float dt) {
 		float vel = PLAYER_VELOCITY * dt;
 
 		if (this->keys[65]) {
-			if (this->player->position.x >= 0.0f)
+			if (this->player->position.x >= 0.0f) {
 				this->player->position.x -= vel;
+				if (this->ball->freeze) {
+					this->ball->position.x -= vel;
+				}
+			}
 		}
 
 		if (this->keys[68]) {
-			if (this->player->position.x <= this->widht - this->player->size.x)
+			if (this->player->position.x <= this->widht - this->player->size.x) {
 				this->player->position.x += vel;
+				if (this->ball->freeze) {
+					this->ball->position.x += vel;
+				}
+			}
+		}
+
+		if (this->keys[32]) {
+			this->ball->freeze = false;
 		}
 	}
 }
 
 void Game::update(float dt) {
-
+	this->ball->update(dt, widht);
 }
 
 void Game::render() {
@@ -65,6 +84,7 @@ void Game::render() {
 
 		this->levels[this->currentLvl].draw(this->renderer);
 		this->player->draw(this->renderer);
+		this->ball->draw(this->renderer);
 	}
 }
 

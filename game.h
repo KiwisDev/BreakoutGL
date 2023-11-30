@@ -8,6 +8,7 @@
 #include "shader.h"
 #include "gameLevel.h"
 #include "player.h"
+#include "ball.h"
 
 enum GameState {
 	GAME_ACTIVE,
@@ -24,6 +25,7 @@ private:
 	std::vector<GameLevel> levels;
 	unsigned int currentLvl;
 	Player* player;
+	Ball* ball;
 
 public:
 	Game(unsigned int width, unsigned int height);
