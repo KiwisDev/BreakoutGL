@@ -16,6 +16,13 @@ enum GameState {
 	GAME_WIN
 };
 
+enum Direction {
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT,
+};
+
 class Game {
 private:
 	GameState state;
@@ -27,7 +34,10 @@ private:
 	Player* player;
 	Ball* ball;
 
-	void doColision();
+	void doCollision();
+	Direction collisionDir(glm::vec2 diff);
+	void resetLevel();
+	void resetPlayer();
 
 public:
 	Game(unsigned int width, unsigned int height);

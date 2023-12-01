@@ -76,7 +76,12 @@ void Game::processInput(float dt) {
 
 void Game::update(float dt) {
 	this->ball->update(dt, width);
-	this->doColision();
+	this->doCollision();
+
+	if (this->ball->position.y >= this->height) {
+		this->resetLevel();
+		this->resetPlayer();
+	}
 }
 
 void Game::render() {
@@ -89,10 +94,11 @@ void Game::render() {
 	}
 }
 
-void Game::doColision() {
+void Game::doCollision() {
 	glm::vec2 ballCenter(this->ball->position + this->ball->radius);
 	std::vector<Brick>* bricks = this->levels[currentLvl].getBricks();
 	
+	// Check bricks collision
 	for (int i = 0; i < bricks->size(); i++) {
 		Brick* brick = &bricks->at(i);
 		if (!brick->isDestroyed) {
@@ -105,12 +111,86 @@ void Game::doColision() {
 			glm::vec2 diff(closest - ballCenter);
 
 			if (glm::length(diff) < this->ball->radius) {
-				if (!brick->isUndestroyable) {
+				if (!brick->isUndestroyable)
 					brick->isDestroyed = true;
+				
+				Direction dir = collisionDir(diff);
+
+				if (dir == LEFT || dir == RIGHT) {
+					this->ball->velocity.x = -this->ball->velocity.x;
+
+					float penetration = this->ball->radius - std::abs(diff.x);
+					if (dir == LEFT)
+						this->ball->position.x += penetration;
+					else
+						this->ball->position.x -= penetration;
+				}
+				else {
+					this->ball->velocity.y = -this->ball->velocity.y;
+
+					float penetration = this->ball->radius - std::abs(diff.y);
+					if (dir == UP)
+						this->ball->position.y -= penetration;
+					else
+						this->ball->position.y += penetration;
 				}
 			}
 		}
 	}
+
+	// Check player collision
+	if (!this->ball->freeze) {
+		glm::vec2 halfExtends(this->player->size.x / 2.0f, this->player->size.y / 2.0f);
+		glm::vec2 playerCenter(this->player->position.x + halfExtends.x, this->player->position.y + halfExtends.y);
+
+		glm::vec2 clamped = glm::clamp(glm::vec2(ballCenter - playerCenter), -halfExtends, halfExtends);
+		glm::vec2 closest = playerCenter + clamped;
+
+		glm::vec2 diff(closest - ballCenter);
+
+		if (glm::length(diff) < this->ball->radius) {
+			float percent = ((this->ball->position.x + this->ball->radius) - playerCenter.x) / halfExtends.x;
+
+			float strength = 2.0f;
+			glm::vec2 oldVel = this->ball->velocity;
+			this->ball->velocity.x = BALL_VELOCITY.x * percent * strength;
+			this->ball->velocity.y = -1 * std::abs(this->ball->velocity.y);
+			this->ball->velocity = glm::normalize(this->ball->velocity) * glm::length(oldVel);
+		}
+	}
+}
+
+Direction Game::collisionDir(glm::vec2 diff) {
+	glm::vec2 compass[] = {
+		glm::vec2(0.0f, 1.0f),	// up
+		glm::vec2(1.0f, 0.0f),	// right
+		glm::vec2(0.0f, -1.0f),	// down
+		glm::vec2(-1.0f, 0.0f)	// left
+	};
+
+	float max = 0.0f;
+	int best = -1;
+	for (int i = 0; i < 4; i++) {
+		float dot = glm::dot(glm::normalize(diff), compass[i]);
+		if (dot > max) {
+			max = dot;
+			best = i;
+		}
+	}
+
+	return (Direction) best;
+}
+
+void Game::resetLevel() {
+	switch (this->currentLvl) {
+	case 0:
+		this->levels[0].load("levels/levelOne.lvl", this->width, this->height / 2);
+	}
+}
+
+void Game::resetPlayer() {
+	this->player->position = glm::vec2(this->width / 2.0f - PLAYER_SIZE.x / 2.0f, this->height - PLAYER_SIZE.y);
+	this->ball->reset(glm::vec2(this->player->position + glm::vec2(PLAYER_SIZE.x / 2.0f - BALL_RADIUS, -BALL_RADIUS * 2.0f)), BALL_VELOCITY);
 }
 
 Game::~Game() {
