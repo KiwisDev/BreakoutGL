@@ -18,6 +18,8 @@ public:
 	void load(const char* file, unsigned int width, unsigned int height);
 	void draw(SpriteRenderer* renderer);
 	bool isCompleted();
+
+	std::vector<Brick>* getBricks() { return &bricks; }
 };
 
 #endif

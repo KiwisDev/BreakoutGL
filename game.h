@@ -20,12 +20,14 @@ class Game {
 private:
 	GameState state;
 	bool keys[1024];
-	unsigned int widht, height;
+	unsigned int width, height;
 	SpriteRenderer* renderer;
 	std::vector<GameLevel> levels;
 	unsigned int currentLvl;
 	Player* player;
 	Ball* ball;
+
+	void doColision();
 
 public:
 	Game(unsigned int width, unsigned int height);
