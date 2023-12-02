@@ -1,25 +1,22 @@
 #include "spriteRenderer.h"
 
 SpriteRenderer::SpriteRenderer(Shader* shader) {
-	this->shader = shader;
+    this->shader = shader;
     this->quadVAO = 0;
 
     float vertices[] = {
         // pos      // tex
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f,
-
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f
+        0.0f, 0.0f, 0.0f, 0.0f, // bottom-left
+        0.0f, 1.0f, 0.0f, 1.0f, // top-left
+        1.0f, 0.0f, 1.0f, 0.0f, // bottom-right
+        1.0f, 1.0f, 1.0f, 1.0f, // top-right
     };
 
-	unsigned int VBO;
-	glGenBuffers(1 ,&VBO);
+    unsigned int VBO;
+    glGenBuffers(1, &VBO);
 
     glGenVertexArrays(1, &this->quadVAO);
-    
+
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
@@ -32,7 +29,7 @@ SpriteRenderer::SpriteRenderer(Shader* shader) {
 
 void SpriteRenderer::drawSpite(Texture2D* texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 color) {
     this->shader->use();
-    
+
     glm::mat4 model = glm::mat4(1.0f);
 
     model = glm::translate(model, glm::vec3(position, 0.0));
@@ -48,6 +45,6 @@ void SpriteRenderer::drawSpite(Texture2D* texture, glm::vec2 position, glm::vec2
     texture->use();
 
     glBindVertexArray(this->quadVAO);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glBindVertexArray(0);
 }
